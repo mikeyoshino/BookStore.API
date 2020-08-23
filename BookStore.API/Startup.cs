@@ -18,6 +18,8 @@ using System.IO;
 using BookStore.API.Contracts;
 using NLog;
 using BookStore.API.Services;
+using AutoMapper;
+using BookStore.API.Mappings;
 
 namespace BookStore.API
 {
@@ -48,6 +50,8 @@ namespace BookStore.API
                     .AllowAnyHeader());
             });
 
+            services.AddAutoMapper(typeof(Maps));
+
 
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
@@ -62,8 +66,9 @@ namespace BookStore.API
                 c.IncludeXmlComments(xpath);
             
             });
-
             services.AddSingleton<ILoggerService, LoggerService>();
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+
 
 
             services.AddControllers();
