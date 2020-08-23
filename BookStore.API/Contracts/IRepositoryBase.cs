@@ -9,6 +9,8 @@ namespace BookStore.API.Contracts
     {
         Task<IList<T>> FindAll();
 
+        Task<bool> isExists(int id);
+
         Task<T> FindById(int id);
 
         Task<bool> Create(T entity);
