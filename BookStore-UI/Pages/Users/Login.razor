@@ -1,25 +1,24 @@
-﻿@page "/Register"
-@using BookStore_UI.Models
-@using BookStore_UI.Contract
+﻿@page "/login"
 
+@using BookStore_UI.Contract
+@using BookStore_UI.Models
 
 @inject IAuthenticationRepository _authoRepo
-@inject NavigationManager _navMan
+@inject NavigationManager _navManager
 
-
-
+<h3>Login</h3>
 
 <div class="card">
     <h3 class="card-title p-5">Register Form</h3>
     @if (!reponse)
     {
         <div class="alert alert-danger">
-            <p>Something went wrong with registation.</p>
+            <p>Something went wrong with login.</p>
         </div>
     }
 
     <div class="card-body">
-        <EditForm Model="Model" OnValidSubmit="HandleRegistration">
+        <EditForm Model="Model" OnValidSubmit="HandleLogin">
             <DataAnnotationsValidator />
             <ValidationSummary />
             <MatThemeProvider Theme="@theme1">
@@ -34,12 +33,8 @@
                     <MatTextField id="password" type="password" @bind-Value="Model.Password" Label="Password" FullWidth="true"></MatTextField>
                     <ValidationMessage For="@(() => Model.Password)" />
                 </div>
-                <div class="form-group">
-                    <MatTextField id="confirmedpassword" type="password" @bind-Value="Model.ConfirnedPassword" Label="Password" FullWidth="true"></MatTextField>
-                    <ValidationMessage For="@(() => Model.ConfirnedPassword)" />
-                </div>
 
-                <MatButton type="submit" Raised="true" Icon="touch_app">Register</MatButton>
+                <MatButton type="submit" Raised="true" Icon="touch_app">Login</MatButton>
 
             </MatThemeProvider>
         </EditForm>
@@ -49,16 +44,16 @@
 
 @code {
 
-    private RegistrationModel Model = new RegistrationModel();
+    private LoginModel Model = new LoginModel();
 
     private bool reponse = true;
-    private async Task HandleRegistration()
+    private async Task HandleLogin()
     {
-        var reponse = await _authoRepo.Register(Model);
+        var reponse = await _authoRepo.Login(Model);
 
         if (reponse)
         {
-            _navMan.NavigateTo("/");
+            _navManager.NavigateTo("/");
         }
 
     }

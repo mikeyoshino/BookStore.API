@@ -10,5 +10,9 @@ namespace BookStore_UI.Contract
     {
 
         public Task<bool> Register(RegistrationModel user);
+
+        public Task<bool> Login(LoginModel user);
+
+        public Task LogOut();
     }
 }

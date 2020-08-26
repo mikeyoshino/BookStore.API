@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using BookStore_UI.Data;
 using BookStore_UI.Contract;
 using BookStore_UI.Service;
+using Blazored.LocalStorage;
+using System.IdentityModel.Tokens.Jwt;
+using BookStore_UI.Provider;
 
 namespace BookStore_UI
 {
@@ -30,8 +33,21 @@ namespace BookStore_UI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+
+            //Add Blazor Local Storage.
+            services.AddBlazoredLocalStorage();
+
+            //Add Http Client
             services.AddHttpClient();
+
+            //allow when you inject this instance.
+            services.AddScoped<ApiAuthenticationStageProvider>();
+
+            services.AddScoped<ApiAuthenticationStageProvider>(p =>
+            p.GetRequiredService<ApiAuthenticationStageProvider>());
+
+            services.AddScoped<JwtSecurityTokenHandler>();
+            //Add DI betweeb IAuthRe to AuthRe
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
         }
 

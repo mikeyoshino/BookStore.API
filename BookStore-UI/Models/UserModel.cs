@@ -8,6 +8,16 @@ namespace BookStore_UI.Models
 {
     public class LoginModel
     {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
+        [Display(Name = "Email Address")]
+        public string EmailAddress { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
     }
     public class RegistrationModel
     {
@@ -27,4 +37,6 @@ namespace BookStore_UI.Models
         [Compare("Password", ErrorMessage = "The password are not match.")]
         public string ConfirnedPassword { get; set; }
     }
+
+
 }
