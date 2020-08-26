@@ -1,0 +1,86 @@
+﻿@page "/Register"
+@using BookStore_UI.Models
+@using BookStore_UI.Contract
+
+
+@inject IAuthenticationRepository _authoRepo
+@inject NavigationManager _navMan
+
+
+
+
+<div class="card">
+    <h3 class="card-title p-5">Register Form</h3>
+    @if (isFailed)
+    {
+        <div class="alert alert-danger">
+            <p>Something went wrong with registation.</p>
+        </div>
+    }
+
+    <div class="card-body">
+        <EditForm Model="Model" OnValidSubmit="HandleRegistration">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <MatThemeProvider Theme="@theme1">
+                <div class="form-group">
+
+                    <MatTextField id="email" @bind-Value="Model.EmailAddress" Label="Email Address" FullWidth="true"></MatTextField>
+                    <ValidationMessage For="@(() => Model.EmailAddress)" />
+
+
+                </div>
+                <div class="form-group">
+                    <MatTextField id="password" type="password" @bind-Value="Model.Password" Label="Password" FullWidth="true"></MatTextField>
+                    <ValidationMessage For="@(() => Model.Password)" />
+                </div>
+                <div class="form-group">
+                    <MatTextField id="confirmedpassword" type="password" @bind-Value="Model.ConfirnedPassword" Label="Password" FullWidth="true"></MatTextField>
+                    <ValidationMessage For="@(() => Model.ConfirnedPassword)" />
+                </div>
+
+                <MatButton type="submit" Raised="true" Icon="touch_app">Register</MatButton>
+
+            </MatThemeProvider>
+        </EditForm>
+    </div>
+</div>
+
+
+@code {
+
+    private RegistrationModel Model = new RegistrationModel();
+
+    bool isFailed = false;
+
+    private async Task HandleRegistration()
+    {
+        var reponse = await _authoRepo.Register(Model);
+
+        if (reponse)
+        {
+            _navMan.NavigateTo("/");
+        }
+        else
+        {
+            isFailed = true;
+
+        }
+    }
+
+
+    MatTheme theme1 = new MatTheme()
+    {
+        Primary = MatThemeColors.Amber.A400.Value,
+        Secondary = MatThemeColors.Teal.A400.Value
+    };
+
+    MatTheme theme2 = new MatTheme()
+    {
+        Primary = "green",
+        Secondary = "orange"
+    };
+
+
+
+}
