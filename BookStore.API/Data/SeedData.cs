@@ -23,7 +23,7 @@ namespace BookStore.API.Data
                 //set username and email which will use with CreateAsync Function below.
                 var user = new IdentityUser
                 {
-                    UserName = "admin",
+                    UserName = "admin@bookstore.com",
                     Email = "admin@bookstore.com"
                 };
                 //create a new user with given detail.
@@ -39,7 +39,7 @@ namespace BookStore.API.Data
                 //set username and email which will use with CreateAsync Function below.
                 var user = new IdentityUser
                 {
-                    UserName = "customer",
+                    UserName = "customer@bookstore.com",
                     Email = "customer@bookstore.com"
                 };
                 //create a new user with given detail.

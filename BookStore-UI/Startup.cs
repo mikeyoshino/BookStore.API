@@ -15,6 +15,8 @@ using BookStore_UI.Service;
 using Blazored.LocalStorage;
 using System.IdentityModel.Tokens.Jwt;
 using BookStore_UI.Provider;
+using Microsoft.AspNetCore.Components.Authorization;
+using System.Net.Http;
 
 namespace BookStore_UI
 {
@@ -43,12 +45,30 @@ namespace BookStore_UI
             //allow when you inject this instance.
             services.AddScoped<ApiAuthenticationStageProvider>();
 
-            services.AddScoped<ApiAuthenticationStageProvider>(p =>
-            p.GetRequiredService<ApiAuthenticationStageProvider>());
+            services.AddScoped<AuthenticationStateProvider>(p =>
+                p.GetRequiredService<ApiAuthenticationStageProvider>());
 
             services.AddScoped<JwtSecurityTokenHandler>();
             //Add DI betweeb IAuthRe to AuthRe
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
+
+
+
+            // Server Side Blazor doesn't register HttpClient by default
+            if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
+            {
+                // Setup HttpClient for server side in a client side compatible fashion
+                services.AddScoped<HttpClient>(s =>
+                {
+                    // Creating the URI helper needs to wait until the JS Runtime is initialized, so defer it.
+                    var uriHelper = s.GetRequiredService<NavigationManager>();
+                    return new HttpClient
+                    {
+                        BaseAddress = new Uri(uriHelper.BaseUri)
+                    };
+                });
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

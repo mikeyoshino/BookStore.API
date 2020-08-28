@@ -17,5 +17,6 @@ namespace BookStore.API.DTOs
         [DataType(DataType.Password)]
         [StringLength(15, ErrorMessage = "Your password is limited {0} to {0} characters.", MinimumLength = 6)]
         public string Password { get; set; }
+
     }
 }

@@ -1,15 +1,12 @@
 ﻿@page "/login"
 
-@using BookStore_UI.Contract
-@using BookStore_UI.Models
 
 @inject IAuthenticationRepository _authoRepo
 @inject NavigationManager _navManager
 
-<h3>Login</h3>
 
 <div class="card">
-    <h3 class="card-title p-5">Register Form</h3>
+    <h3 class="card-title p-2">Login Page</h3>
     @if (!reponse)
     {
         <div class="alert alert-danger">
@@ -17,25 +14,25 @@
         </div>
     }
 
-    <div class="card-body">
+    <div class="card-body p-5">
         <EditForm Model="Model" OnValidSubmit="HandleLogin">
             <DataAnnotationsValidator />
             <ValidationSummary />
             <MatThemeProvider Theme="@theme1">
                 <div class="form-group">
 
-                    <MatTextField id="email" @bind-Value="Model.EmailAddress" Label="Email Address" FullWidth="true"></MatTextField>
+                    <MatTextField id="email" @bind-Value="Model.EmailAddress" Label="Email Address" Icon="@MatIconNames.Account_box" FullWidth="false"></MatTextField>
                     <ValidationMessage For="@(() => Model.EmailAddress)" />
 
 
                 </div>
                 <div class="form-group">
-                    <MatTextField id="password" type="password" @bind-Value="Model.Password" Label="Password" FullWidth="true"></MatTextField>
+                    <MatTextField id="password" type="password" @bind-Value="Model.Password" Label="Password" Icon="@MatIconNames.Vpn_key" FullWidth="false"></MatTextField>
                     <ValidationMessage For="@(() => Model.Password)" />
                 </div>
 
                 <MatButton type="submit" Raised="true" Icon="touch_app">Login</MatButton>
-
+                <MatButton type="submit" Raised="true" Icon="people">Register</MatButton>
             </MatThemeProvider>
         </EditForm>
     </div>
@@ -61,15 +58,11 @@
 
     MatTheme theme1 = new MatTheme()
     {
-        Primary = MatThemeColors.Amber.A400.Value,
+        Primary = MatThemeColors.Teal._700.Value,
         Secondary = MatThemeColors.Teal.A400.Value
+
     };
 
-    MatTheme theme2 = new MatTheme()
-    {
-        Primary = "green",
-        Secondary = "orange"
-    };
 
 
 

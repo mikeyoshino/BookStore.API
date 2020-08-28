@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Admin\source\repos\BookStore.API\BookStore.API\BookStore.API.xml</DocumentationFile>
     <NoWarn>1701;1702;1591;</NoWarn>
   </PropertyGroup>
 
@@ -15,6 +14,20 @@
     <Compile Remove="Data\Migrations\20200823170818_YearFromDateToInt.Designer.cs" />
     <Compile Remove="Data\Migrations\20200823170953_YearFromDateToInt.cs" />
     <Compile Remove="Data\Migrations\20200823170953_YearFromDateToInt.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200828105228_addNicknameToAppUser.cs" />
+    <Compile Remove="Data\Migrations\20200828105228_addNicknameToAppUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200828110717_check.cs" />
+    <Compile Remove="Data\Migrations\20200828110717_check.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="BookStore.API.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="BookStore.API.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +43,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookStore-UI\BookStore-UI.csproj" />
   </ItemGroup>
 
 </Project>
