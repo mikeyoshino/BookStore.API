@@ -52,6 +52,7 @@ namespace BookStore_UI
             //Add DI betweeb IAuthRe to AuthRe
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
             services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<IBookRepository, BookRepository>();
 
 
 

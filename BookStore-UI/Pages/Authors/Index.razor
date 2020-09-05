@@ -1,6 +1,7 @@
 ﻿@page "/authors/"
 
 @inject IAuthorRepository _repo
+@attribute [Authorize(Roles = "Administration")]
 @inject NavigationManager _navManager
 <h3>Author List</h3>
 
@@ -10,9 +11,14 @@
 }
 else
 {
-    <a href="/authors/create" class="btn btn-primary">
-        <span class="oi oi-plus">Create New Author</span>
-    </a>
+<AuthorizeView Roles="Administration">
+    <div class="p-3">
+        <a href="/authors/create" class="btn btn-primary">
+            <span class="oi oi-plus">Create New Author</span>
+        </a>
+    </div>
+</AuthorizeView>
+    
 
     if (Model.Count < 1)
     {
@@ -20,28 +26,39 @@ else
     }
     else
     {
-        <MatTable Items="@Model" class="mat-elevation-z5">
-            <MatTableHeader>
-                <th width="43%">First Name</th>
-                <th width="43%">Last Name</th>
-                <th>Action</th>
-            </MatTableHeader>
-            <MatTableRow>
-                <td>@context.FirstName</td>
-                <td>@context.LastName</td>
-                <td>
-                    <a href="/authors/view/@context.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/authors/edit/@context.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <a href="/authors/delete/@context.Id" class="btn btn-danger">
-                        <span class="oi oi-delete"></span>
-                    </a>
-                </td>
-            </MatTableRow>
-        </MatTable>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var author in Model)
+                {
+                    <tr>
+                        <td>@author.FirstName</td>
+                        <td>@author.LastName</td>
+                        <td>
+                            <AuthorizeView Roles="Administration">
+                                <a href="/authors/view/@author.Id" class="btn btn-primary">
+                                    <span class="oi oi-book"></span>
+                                </a>
+                                <a href="/authors/edit/@author.Id" class="btn btn-warning">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                                <a href="/authors/delete/@author.Id" class="btn btn-danger">
+                                    <span class="oi oi-delete"></span>
+                                </a>
+                            </AuthorizeView>
+
+                        </td>
+                    </tr>
+                }
+                </tbody>
+        </table> 
 
     }
 

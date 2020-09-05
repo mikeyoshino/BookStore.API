@@ -1,4 +1,5 @@
 ﻿@page "/authors/edit/{Id}"
+@attribute [Authorize(Roles = "Administration")]
 @inject IAuthorRepository _repo
 @inject NavigationManager _navManager
 
@@ -6,9 +7,7 @@
 
 @if (isFailed)
 {
-    <div class="alert alert-danger">
-        <p>Ops, something went wrong with data registration.</p>
-    </div>
+    <ErrorMessage Message="Ops, something went wrong with data registration."></ErrorMessage>
 }
 @if (Model == null)
 {
