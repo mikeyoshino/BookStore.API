@@ -1,70 +1,50 @@
 ﻿@page "/authors/"
 
 @inject IAuthorRepository _repo
-
+@inject NavigationManager _navManager
 <h3>Author List</h3>
+
 @if (Model == null)
 {
-    <div class="alert alert-dismissible alert-secondary">
-        Loading Data...
-    </div>
+    <LoadingMessage Message="Loading data." />
 }
 else
 {
-    @*<table class="table table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th width="40%">First Name</th>
-                <th width="40%">Last Name</th>
-                <th width="20%">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var author in Model)
-            {
-                <tr>
-                    <td>@author.FirstName</td>
-                    <td>@author.LastName</td>
-                    <td>
-                        <button class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </button>
-                        <button class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </button>
-                        <button class="btn btn-danger">
-                            <span class="oi oi-delete"></span>
-                        </button>
+    <a href="/authors/create" class="btn btn-primary">
+        <span class="oi oi-plus">Create New Author</span>
+    </a>
 
-                    </td>
-                </tr>
-            }
+    if (Model.Count < 1)
+    {
+        <LoadingMessage Message="There are no authors. Please create author." />
+    }
+    else
+    {
+        <MatTable Items="@Model" class="mat-elevation-z5">
+            <MatTableHeader>
+                <th width="43%">First Name</th>
+                <th width="43%">Last Name</th>
+                <th>Action</th>
+            </MatTableHeader>
+            <MatTableRow>
+                <td>@context.FirstName</td>
+                <td>@context.LastName</td>
+                <td>
+                    <a href="/authors/view/@context.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/authors/edit/@context.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <a href="/authors/delete/@context.Id" class="btn btn-danger">
+                        <span class="oi oi-delete"></span>
+                    </a>
+                </td>
+            </MatTableRow>
+        </MatTable>
 
-        </tbody>
-    </table>*@
+    }
 
-    <MatTable Items="@Model" class="mat-elevation-z5">
-        <MatTableHeader>
-            <th width="43%">First Name</th>
-            <th width="43%">Last Name</th>
-            <th>Action</th>
-        </MatTableHeader>
-        <MatTableRow>
-            <td>@context.FirstName</td>
-            <td>@context.LastName</td>
-            <td>
-                <button class="btn btn-primary">
-                    <span class="oi oi-book"></span>
-                </button>
-                <button class="btn btn-warning">
-                    <span class="oi oi-pencil"></span>
-                </button>
-                <button class="btn btn-danger">
-                    <span class="oi oi-delete"></span>
-                </button>
-            </td>
-        </MatTableRow>
-    </MatTable>
 
 
 }
@@ -76,4 +56,8 @@ else
         Model = await _repo.Get(Endpoints.AuthorsEndpoint);
     }
 
+    private void BackToList()
+    {
+        _navManager.NavigateTo("/authors/");
+    }
 }
